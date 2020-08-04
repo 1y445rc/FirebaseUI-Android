@@ -68,7 +68,7 @@ public class EmailProviderResponseHandler extends SignInViewModelBase {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         if (e instanceof FirebaseAuthUserCollisionException) {
-                            if (authOperationManager.canUpgradeAnonymous(getAuth(),
+                            if (authOperationManager.canUpgradeUser(getAuth(),
                                     getArguments())) {
                                 AuthCredential credential = EmailAuthProvider.getCredential(email,
                                         password);

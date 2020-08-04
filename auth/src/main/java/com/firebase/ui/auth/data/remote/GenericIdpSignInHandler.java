@@ -41,7 +41,6 @@ import com.google.firebase.auth.OAuthProvider;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestrictTo(RestrictTo.Scope.LIBRARY_GROUP)
 public class GenericIdpSignInHandler extends ProviderSignInBase<AuthUI.IdpConfig> {
@@ -69,7 +68,7 @@ public class GenericIdpSignInHandler extends ProviderSignInBase<AuthUI.IdpConfig
         FlowParameters flowParameters = activity.getFlowParams();
         OAuthProvider provider = buildOAuthProvider(providerId);
         if (flowParameters != null
-                && AuthOperationManager.getInstance().canUpgradeAnonymous(auth, flowParameters)) {
+                && AuthOperationManager.getInstance().canUpgradeUser(auth, flowParameters)) {
             handleAnonymousUpgradeFlow(auth, activity, provider, flowParameters);
             return;
         }

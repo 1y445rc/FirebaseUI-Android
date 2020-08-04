@@ -33,7 +33,7 @@ public class EmailLinkSendEmailHandler extends AuthViewModelBase<String> {
         setResult(Resource.<String>forLoading());
 
         final String anonymousUserId =
-                AuthOperationManager.getInstance().canUpgradeAnonymous(getAuth(), getArguments())
+                AuthOperationManager.getInstance().canUpgradeUser(getAuth(), getArguments())
                 ? getAuth().getCurrentUser().getUid() : null;
         final String sessionId =
                 SessionUtils.generateRandomAlphaNumericString(SESSION_ID_LENGTH);

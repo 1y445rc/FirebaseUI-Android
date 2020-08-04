@@ -9,6 +9,7 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.OAuthProvider;
 
 import androidx.annotation.NonNull;
@@ -60,7 +61,7 @@ public class AuthOperationManager {
                                                                  @NonNull FlowParameters flowParameters,
                                                                  @NonNull String email,
                                                                  @NonNull String password) {
-        if (canUpgradeAnonymous(auth, flowParameters)) {
+        if (canUpgradeUser(auth, flowParameters)) {
             AuthCredential credential = EmailAuthProvider.getCredential(email, password);
             return auth.getCurrentUser().linkWithCredential(credential);
         } else {
@@ -71,16 +72,18 @@ public class AuthOperationManager {
     public Task<AuthResult> signInAndLinkWithCredential(@NonNull FirebaseAuth auth,
                                                         @NonNull FlowParameters flowParameters,
                                                         @NonNull AuthCredential credential) {
-        if (canUpgradeAnonymous(auth, flowParameters)) {
+        if (canUpgradeUser(auth, flowParameters)) {
             return auth.getCurrentUser().linkWithCredential(credential);
         } else {
             return auth.signInWithCredential(credential);
         }
     }
 
-    public boolean canUpgradeAnonymous(FirebaseAuth auth, FlowParameters flowParameters) {
-        return flowParameters.isAnonymousUpgradeEnabled() && auth.getCurrentUser() != null &&
-                auth.getCurrentUser().isAnonymous();
+    public boolean canUpgradeUser(FirebaseAuth auth, FlowParameters flowParameters) {
+        FirebaseUser currentUser = auth.getCurrentUser();
+        return currentUser != null && (currentUser.isAnonymous()
+                ? flowParameters.isAnonymousUpgradeEnabled()
+                : flowParameters.isCredentialsLinkingEnabled());
     }
 
     @NonNull

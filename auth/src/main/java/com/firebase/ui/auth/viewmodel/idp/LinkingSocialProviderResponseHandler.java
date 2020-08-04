@@ -84,7 +84,7 @@ public class LinkingSocialProviderResponseHandler extends SignInViewModelBase {
         final AuthOperationManager authOperationManager = AuthOperationManager.getInstance();
         final AuthCredential credential = ProviderUtils.getAuthCredential(response);
 
-        if (authOperationManager.canUpgradeAnonymous(getAuth(), getArguments())) {
+        if (authOperationManager.canUpgradeUser(getAuth(), getArguments())) {
             if (mRequestedSignInCredential == null) {
                 // The user has provided a valid credential by signing in with a federated
                 // idp. linkWithCredential will fail because the user is anonymous and the account

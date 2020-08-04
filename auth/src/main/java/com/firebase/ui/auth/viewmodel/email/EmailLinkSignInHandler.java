@@ -161,7 +161,7 @@ public class EmailLinkSignInHandler extends SignInViewModelBase {
         final AuthCredential emailLinkCredential = EmailAuthProvider.getCredentialWithLink
                 (response.getEmail(), link);
 
-        if (authOperationManager.canUpgradeAnonymous(getAuth(), getArguments())) {
+        if (authOperationManager.canUpgradeUser(getAuth(), getArguments())) {
             authOperationManager.safeLink(emailLinkCredential,
                     storedCredentialForLink, getArguments())
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {

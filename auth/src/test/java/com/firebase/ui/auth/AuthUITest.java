@@ -292,4 +292,15 @@ public class AuthUITest {
                 .setAvailableProviders(Arrays.asList(config))
                 .enableAnonymousUsersAutoUpgrade();
     }
+
+    @Test(expected = IllegalStateException.class)
+    public void testSignInIntentBuilder_credentialLinkingWithEmailLinkCrossDevice_expectThrows() {
+        ActionCodeSettings actionCodeSettings = ActionCodeSettings.newBuilder().setUrl(URL).build();
+        IdpConfig config = new IdpConfig.EmailBuilder().enableEmailLinkSignIn()
+                .setActionCodeSettings(actionCodeSettings).build();
+
+        AuthUI.getInstance().createSignInIntentBuilder()
+                .setAvailableProviders(Arrays.asList(config))
+                .enableCurrentUserCredentialLinking();
+    }
 }

@@ -44,7 +44,7 @@ public class GenericIdpAnonymousUpgradeLinkingHandler extends GenericIdpSignInHa
         FlowParameters flowParameters = activity.getFlowParams();
         OAuthProvider provider = buildOAuthProvider(providerId);
         if (flowParameters != null
-                && AuthOperationManager.getInstance().canUpgradeAnonymous(auth, flowParameters)) {
+                && AuthOperationManager.getInstance().canUpgradeUser(auth, flowParameters)) {
                 handleAnonymousUpgradeLinkingFlow(activity, provider, flowParameters);
             return;
         }

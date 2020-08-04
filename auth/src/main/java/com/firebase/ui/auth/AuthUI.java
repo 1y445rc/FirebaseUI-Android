@@ -1383,6 +1383,7 @@ public final class AuthUI {
 
         private String mEmailLink;
         private boolean mEnableAnonymousUpgrade;
+        private boolean mEnableCredentialLinking;
 
         private SignInIntentBuilder() {
             super();
@@ -1408,6 +1409,20 @@ public final class AuthUI {
         @NonNull
         public SignInIntentBuilder enableAnonymousUsersAutoUpgrade() {
             mEnableAnonymousUpgrade = true;
+            validateEmailBuilderConfig();
+            return this;
+        }
+
+        /**
+         * Enables linking authenticated accounts with provided credential during the sign-in flow.
+         * This is disabled by default.
+         *
+         * @throws IllegalStateException when you attempt to enable authenticated user linking
+         *                               without forcing the same device flow for email link sign in.
+         */
+        @NonNull
+        public SignInIntentBuilder enableCurrentUserCredentialLinking() {
+            mEnableCredentialLinking = true;
             validateEmailBuilderConfig();
             return this;
         }
@@ -1438,6 +1453,7 @@ public final class AuthUI {
                     mEnableCredentials,
                     mEnableHints,
                     mEnableAnonymousUpgrade,
+                    mEnableCredentialLinking,
                     mAlwaysShowProviderChoice,
                     mEmailLink,
                     mAuthMethodPickerLayout);
